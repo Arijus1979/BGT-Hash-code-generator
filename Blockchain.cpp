@@ -5,19 +5,21 @@
 #include <algorithm>
 #include <sstream>
 #include <iomanip>
+#include <fstream>
+#include <random>
 
 using namespace std;
 
-int hashing(string input)
+long hashing(string input)
 {
-	int hash = 15; 
-	int multiply = 999; 
+	int hash = 1; 
+	int multiply = 3; 
 	for (int i = 0; i < input.length(); i++)
 	{
-		hash = hash ^ (input[i]);
-		hash = hash * multiply;
+        hash = hash + input[i];
+        hash *= multiply;
 	}
-    //auto s = std::to_string(hash);
+    //cout << hash << endl;
 	return abs(hash);
 }
 
@@ -57,10 +59,10 @@ string decToHexa(int n)
     return ss.str();
 }
 
-string to256bit(int hash)
+string to256bit(long hash)
 {
     stringstream ss;
-    for (int i = 2; i < 15; i++)
+    for (int i = 2; i < 30; i++)
     {
         ss << decToHexa(abs((i*hash)));
     }
@@ -68,27 +70,206 @@ string to256bit(int hash)
     
 }
 
+string hashas(string input)
+{
+    return to256bit(hashing(input));
+}
+
+string fromFile(string FileName)
+{
+    ifstream in(FileName);
+    stringstream ss;
+    string s;
+    while (!in.eof())
+    {
+        in >> s;
+        ss << s << " ";
+    }
+    return ss.str();
+    in.close();
+}
+
+string random_string(string::size_type length)
+{
+    static auto& chrs = "0123456789"
+        "abcdefghijklmnopqrstuvwxyz"
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+    thread_local static mt19937 rg{ random_device{}() };
+    thread_local static uniform_int_distribution<string::size_type> pick(0, sizeof(chrs) - 2);
+
+    std::string s;
+
+    s.reserve(length);
+
+    while (length--)
+        s += chrs[pick(rg)];
+
+    return s;
+}
+
+void generateFiles()
+{
+    stringstream ss;
+    string FileName;
+    FileName = "1symbol1.txt";
+    ofstream out(FileName);
+    out << random_string(1);
+    out.close();
+    FileName = "1symbol2.txt";
+    out.open(FileName);
+    out << random_string(1);
+    out.close();
+    //---
+    FileName = "1000symbol1.txt";
+    out.open(FileName);
+    out << random_string(1000);
+    out.close();
+    FileName = "1000symbol2.txt";
+    out.open(FileName);
+    ss << random_string(1000);
+    ss.str()[500] = 'Z';
+    out << ss.str();
+    out.close();
+    //---
+    FileName = "1000symbol3.txt";
+    out.open(FileName);
+    ss.str()[500] = 'A';
+    out << ss.str();
+    out.close();
+}
+
+void testing1()
+{
+    cout << "TEST 1" << endl;
+    string FileName, data;
+    FileName = "1symbol1.txt";
+    ifstream in(FileName);
+    while (!in.eof())
+    {
+        in >> data;
+    }
+    cout << hashas(data) << endl;
+    in.close();
+    FileName = "1symbol2.txt";
+    in.open(FileName);
+    while (!in.eof())
+    {
+        in >> data;
+    }
+    cout << hashas(data) << endl;
+    in.close();
+    //---
+    cout << "TEST 2" << endl;
+    FileName = "1000symbol1.txt";
+    in.open(FileName);
+    while (!in.eof())
+    {
+        in >> data;
+    }
+    cout << hashas(data) << endl;
+    in.close();
+    FileName = "1000symbol2.txt";
+    in.open(FileName);
+    while (!in.eof())
+    {
+        in >> data;
+    }
+    cout << hashas(data) << endl;
+    in.close();
+    //---
+    cout << "TEST 3" << endl;
+    FileName = "1000symbol2.txt";
+    in.open(FileName);
+    while (!in.eof())
+    {
+        in >> data;
+    }
+    cout << hashas(data) << endl;
+    in.close();
+    FileName = "1000symbol3.txt";
+    in.open(FileName);
+    while (!in.eof())
+    {
+        in >> data;
+    }
+    cout << hashas(data) << endl;
+    in.close();
+
+}
+
+
+void initiate() //main
+{
+    char ats;
+    string pav;
+    cout << "Ar norite padaryti efektyvumo testa? [Y/N] ";
+    while (true)
+    {
+        cin >> ats;
+        if (ats != 'y' && ats != 'n' && ats != 'Y' && ats != 'N')
+            cout << "Y/N ";
+        else break;
+    }
+    if (ats == 'Y' || ats == 'y')
+    {
+        
+    }
+    cout << "Ar norite duomenis nuskaityti is failo? [Y/N] ";
+    while (true)
+    {
+        cin >> ats;
+        if (ats != 'y' && ats != 'n' && ats != 'Y' && ats != 'N')
+            cout << "Y/N ";
+        else break;
+    }
+    if (ats == 'Y' || ats == 'y')
+    {
+        cout << "Ar turite sugeneruotus failus? [Y/N] ";
+        while (true)
+        {
+            cin >> ats;
+            if (ats != 'y' && ats != 'n' && ats != 'Y' && ats != 'N')
+                cout << "Y/N ";
+            else break;
+        }
+        if (ats == 'Y' || ats == 'y')
+        {
+            testing1();
+        }
+        else
+        {
+            cout << "Ar noresite sugeneruoti failus? [Y/N] ";
+            while (true)
+            {
+                cin >> ats;
+                if (ats != 'y' && ats != 'n' && ats != 'Y' && ats != 'N')
+                    cout << "Y/N ";
+                else break;
+            }
+            if (ats == 'Y' || ats == 'y')
+            {
+                generateFiles();
+            }
+            else
+            {
+                cout << "Iveskite failo pavadinima: ";
+                cin >> pav;
+                cout << hashas(fromFile(pav)) << endl;
+            }
+        }
+        
+    }
+    else
+    {
+        cout << "Iveskite norima uzkoduoti teksta: ";
+        cin >> pav;
+        cout << hashas(pav);
+    }
+}
 
 int main()
 {
-	//decToHexa(hashing("test"));
-	/*cout << hashing("1234") << endl;
-	cout << hashing("TEST") << endl;
-	cout << hashing("tesT") << endl;*/
-
-    cout << "test: " << to256bit(hashing("testsdfasdf asd fasd fasd fa sd")) << endl;
-    cout << "Test: " << to256bit(hashing("Testasdf asdf asd fasd fasd fasdf ")) << endl;
-    cout << "TEST: " << to256bit(hashing("TESTasdf adff asd asd fasdasd fasd fasd fasd fasd fasd fasd f")) << endl;
-    cout << "tesT: " << to256bit(hashing("tesTasdffaa sdf asd fasd fas dfasd fasdfasd fasd fasd fasd f asdf asd fasd fasd fasd fff f f f f")) << endl;
-    cout << "tesT: " << to256bit(hashing("tesTasdffaa sdf asd fasd fas dfasd fasdfasd fasd fasd fasd f asdf asd fasd fasd fasd fff f f f a")) << endl;
-    cout << "tesT: " << to256bit(hashing("tes Tasd ffaa")) << endl;
-    cout << "tesT: " << to256bit(hashing("tesTa sdf faa")) << endl;
-    cout << "tesT: " << to256bit(hashing("tesTasd f faa")) << endl;
-
-
-    
-
-   
-
+    initiate();
 
 }
