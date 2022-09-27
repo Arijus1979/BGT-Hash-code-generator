@@ -41,5 +41,29 @@
     <Text Include="konstitucija.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="25ksymbol10.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="25ksymbol1000.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="25ksymbol100.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="25ksymbol500.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="25ksymbol500_dif.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="25ksymbol1000_dif.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="25ksymbol10_dif.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="25ksymbol100_dif.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>
