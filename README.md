@@ -94,9 +94,29 @@ Function main
 
 # Testing results
 
+## 1. Avalanche effect testing
 
+![image](https://user-images.githubusercontent.com/43725384/192745031-00e916da-5333-4253-ae52-1029cfb18931.png)
 
+## 2. Collision testing
 
+![image](https://user-images.githubusercontent.com/43725384/192745557-99404de6-38fd-4add-8e71-ef0dc11d9915.png)
+
+## 3. Efectiveness testing
+
+![image](https://user-images.githubusercontent.com/43725384/192746028-32eca7f6-5724-439a-865f-4f1fad265587.png)
+
+## 4. Similarity testing
+
+![image](https://user-images.githubusercontent.com/43725384/192746466-9b0ea859-5c15-4cec-b2da-138481473372.png)
+
+## 5. User input hashing
+
+![image](https://user-images.githubusercontent.com/43725384/192746624-877074fb-fcfe-4610-ac89-388ca0fbc38e.png)
+
+# Conclusion
+
+Application works as expected and generates a deterministic hash.
 
 
 
