@@ -714,6 +714,6 @@ void initiate() //main
 
 int main()
 {
-    initiate();
+    initiate(); //main function
 
 }
